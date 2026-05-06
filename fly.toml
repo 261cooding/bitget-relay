@@ -1,33 +1,24 @@
-# fly.toml app configuration file generated for bitget-relay on 2026-05-06T01:15:35Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = 'bitget-relay'
-primary_region = 'fra'
+app = "bitget-relay"
+primary_region = "fra"
 
 [build]
-  dockerfile = 'Dockerfile'
+  dockerfile = "Dockerfile"
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = 'off'
+  auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
 
-[[services]]
-  protocol = ''
-  internal_port = 0
-  ports = []
-
-  [[services.tcp_checks]]
-    interval = '15s'
-    timeout = '2s'
-    grace_period = '5s'
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "get"
+  path = "/health"
+  timeout = "5s"
 
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
+  cpu_kind = "shared"
   cpus = 1
   memory_mb = 256
